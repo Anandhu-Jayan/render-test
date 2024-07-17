@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 const cors = require('cors')
-
+app.use(express.static('dist'))
 app.use(cors())
 let notes = [
     {
@@ -22,16 +22,16 @@ let notes = [
     }
   ]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
+// app.get('/', (request, response) => {
+//   response.send('<h1>Hello World!</h1>')
+// })
 
 app.get('/api/notes', (request, response) => {
   response.send(JSON.stringify(notes))
   console.log('send')
 })
 app.get('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id)
+    const id = (request.params.id).toString()
     const note = notes.find(note => note.id === id)
     note?response.json(note):response.status(404).end()
   })
